@@ -1,14 +1,12 @@
 package com.ftmnet.homepage.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @Entity
@@ -23,14 +21,17 @@ public class User implements UserDetails {
             .build();
 
     @Id
-    @Getter public final long id = 0L;
+    @Getter private final long id = 0L;
 
     @Column(nullable = false, unique = true)
-    @Getter public String name;
+    @Getter @Setter private String name;
+
+    @OneToMany(mappedBy = "user", orphanRemoval = true)
+    @Getter @Setter private List<Category> categories;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        return Collections.emptyList();
     }
 
     @Override
